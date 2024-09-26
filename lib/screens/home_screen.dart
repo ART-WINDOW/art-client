@@ -13,8 +13,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    final apiService = ApiService(baseUrl: 'https://openapi.gg.go.kr/GGCULTUREVENTSTUS');
-    exhibitions = apiService.fetchExhibitions();
+    // 변경된 URL에 맞춘 baseUrl 설정 (API 경로 수정)
+    final apiService = ApiService();
+    exhibitions = apiService.fetchExhibitions(page: 0, pageSize: 10);
   }
 
   @override
@@ -38,11 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 final exhibition = snapshot.data![index];
                 return ListTile(
-                  title: Text(exhibition.title),
-                  subtitle: Text(exhibition.instNm),
-                  trailing: Image.network(exhibition.imageUrl),
+                  title: Text(exhibition.title),   // 전시 제목
+                  subtitle: Text('${exhibition.place}, ${exhibition.status}'), // 장소와 상태
+                  trailing: Image.network(
+                    exhibition.imgUrl, // 이미지 URL
+                    errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image), // 이미지 오류 처리
+                  ),
                   onTap: () {
-                    // 전시회 상세 정보 보기 등 추가 기능 구현 가능
+                    // 상세 정보 페이지로 이동 기능 추가 가능
                   },
                 );
               },
