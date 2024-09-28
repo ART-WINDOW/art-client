@@ -1,5 +1,4 @@
-import 'dart:convert'; // JSON 처리
-import 'package:html/parser.dart' as html_parser;
+import 'package:intl/intl.dart';
 
 class Exhibition {
   final int id;                   // ID
@@ -24,22 +23,40 @@ class Exhibition {
     required this.status,
   });
 
+  // 날짜를 보기 좋은 형식으로 변환
+  String getFormattedStartDate() {
+    return DateFormat('yyyy-MM-dd').format(startDate);
+  }
+
+  String getFormattedEndDate() {
+    return DateFormat('yyyy-MM-dd').format(endDate);
+  }
+
+  // 전시 상태를 한글로 변환
+  String getLocalizedStatus() {
+    switch (status) {
+      case 'SCHEDULED':
+        return '전시 예정';
+      case 'ONGOING':
+        return '전시 중';
+      case 'COMPLETED':
+        return '전시 종료';
+      default:
+        return status; // 정의되지 않은 상태가 있으면 그대로 표시
+    }
+  }
+
   // JSON 데이터를 Dart 객체로 변환하는 메서드
   factory Exhibition.fromJson(Map<String, dynamic> json) {
-    // HTML 엔터티를 디코딩하는 부분 추가
-    String decodeHtml(String input) {
-      return html_parser.parse(input).body?.text ?? input;
-    }
-
     return Exhibition(
       id: json['id'] as int,
-      title: decodeHtml(json['title'] ?? ''),
-      description: decodeHtml(json['description'] ?? ''),
-      imgUrl: decodeHtml(json['imgUrl'] ?? ''),
-      area: decodeHtml(json['area'] ?? ''),
-      startDate: DateTime.parse(json['startDate'] ?? ''),
-      endDate: DateTime.parse(json['endDate'] ?? ''),
-      place: decodeHtml(json['place'] ?? ''),
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      imgUrl: json['imgUrl'] ?? '',
+      area: json['area'] ?? '',
+      startDate: DateTime.parse(json['startDate']),
+      endDate: DateTime.parse(json['endDate']),
+      place: json['place'] ?? '',
       status: json['status'] ?? '',
     );
   }
