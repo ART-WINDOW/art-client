@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ExhibitionProvider()),
       ],
       child: MaterialApp(
-        title: '전시회 정보', // 앱의 이름
+        // title: '전시회 정보', // 앱의 이름
         theme: ThemeData(
           primarySwatch: Colors.blue, // 앱의 기본 테마 색상
         ),
@@ -42,7 +42,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(), // 첫 번째 탭: 홈 스크린
     const Center(child: Text('주요 전시', style: TextStyle(fontSize: 30))), // 두 번째 탭: 주요 전시
-    const Center(child: Text('내 정보', style: TextStyle(fontSize: 30))), // 세 번째 탭: 내 정보
+    // const Center(child: Text('내 정보', style: TextStyle(fontSize: 30))), // 세 번째 탭: 내 정보
   ];
 
   // 현재 선택된 네비게이션 항목에 따라 화면을 변경하는 함수
@@ -59,7 +59,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('전시회 정보'), // 상단 앱바의 제목
       ),
       body: _widgetOptions.elementAt(_selectedIndex), // 현재 선택된 화면을 body에 표시
       bottomNavigationBar: isWeb
@@ -75,10 +74,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             icon: Icon(Icons.star), // 주요 전시 아이콘
             label: '주요 전시', // 주요 전시 라벨
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person), // 내 정보 아이콘
-            label: '내 정보', // 내 정보 라벨
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.person), // 내 정보 아이콘
+          //   label: '내 정보', // 내 정보 라벨
+          // ),
         ],
         currentIndex: _selectedIndex, // 현재 선택된 인덱스
         selectedItemColor: Colors.blue, // 선택된 항목의 색상
@@ -118,14 +117,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 Navigator.pop(context); // 드로어 닫기
               },
             ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('내 정보'),
-              onTap: () {
-                _onItemTapped(2); // 세 번째 탭 선택
-                Navigator.pop(context); // 드로어 닫기
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.person),
+            //   title: Text('내 정보'),
+            //   onTap: () {
+            //     _onItemTapped(2); // 세 번째 탭 선택
+            //     Navigator.pop(context); // 드로어 닫기
+            //   },
+            // ),
           ],
         ),
       )
