@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // 상태 관리 패키지
 import 'providers/exhibition_provider.dart'; // 전시회 데이터를 관리하는 provider
+import 'providers/major_exhibition_provider.dart'; // 전시회 데이터를 관리하는 provider
 import 'screens/home_screen.dart'; // 홈 스크린을 보여주는 위젯
+import 'screens/major_exhibitions_screen.dart'; //
 
 // Flutter 애플리케이션의 진입점 역할을 하는 함수
 void main() {
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       providers: [
         // ChangeNotifierProvider로 ExhibitionProvider를 제공, 상태 관리 역할
         ChangeNotifierProvider(create: (_) => ExhibitionProvider()),
+        ChangeNotifierProvider(create: (_) => MajorExhibitionProvider()), // 주요 전시 provider 추가
       ],
       child: MaterialApp(
         // title: '전시회 정보', // 앱의 이름
@@ -41,7 +44,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   // 각 네비게이션 항목에 해당하는 위젯들을 리스트로 정의
   static final List<Widget> _widgetOptions = <Widget>[
     HomeScreen(), // 첫 번째 탭: 홈 스크린
-    const Center(child: Text('주요 전시', style: TextStyle(fontSize: 30))), // 두 번째 탭: 주요 전시
+    MajorExhibitionsScreen(), // 두 번째 탭: 주요 전시
     // const Center(child: Text('내 정보', style: TextStyle(fontSize: 30))), // 세 번째 탭: 내 정보
   ];
 

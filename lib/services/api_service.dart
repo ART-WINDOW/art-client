@@ -86,6 +86,7 @@ class ApiService {
       if (response.statusCode == 200) {
         // 응답 데이터를 JSON으로 파싱하고, UTF-8로 디코딩된 데이터를 사용
         final List<dynamic> jsonList = json.decode(decodedBody)['content'];
+        print('Major exhibitions data received successfully'); // 성공 로그
 
         // JSON 데이터를 Exhibition 객체로 변환하여 리스트로 반환
         return jsonList.map((json) => Exhibition.fromJson(json)).toList();
