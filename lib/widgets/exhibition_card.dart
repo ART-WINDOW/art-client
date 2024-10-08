@@ -9,6 +9,12 @@ class ExhibitionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 이미지 URL이 http로 시작하는 경우 https로 변경
+    String imageUrl = exhibition.imgUrl;
+    if (imageUrl.startsWith('http://')) {
+      imageUrl = imageUrl.replaceFirst('http://', 'https://');
+    }
+
     return Card(
       margin: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
@@ -16,17 +22,19 @@ class ExhibitionCard extends StatelessWidget {
       ),
       elevation: 5,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
             child: AspectRatio(
-              aspectRatio: 3 / 3, // 원하는 비율로 설정
+              aspectRatio: 3 / 3.0, // 원하는 비율로 설정
               child: Image.network(
-                exhibition.imgUrl,
+                imageUrl, // 변환된 이미지 URL 사용
                 fit: BoxFit.cover,
                 width: double.infinity,
-                errorBuilder: (context, error, stackTrace) => Icon(CupertinoIcons.photo),
+                errorBuilder: (context, error, stackTrace) =>
+                    Icon(CupertinoIcons.photo),
               ),
             ),
           ),
@@ -49,7 +57,8 @@ class ExhibitionCard extends StatelessWidget {
                 SizedBox(width: 4),
                 Text(
                   exhibition.place + ' | ' + exhibition.area,
-                  style: TextStyle(fontSize: 15, color: CupertinoColors.systemGrey),
+                  style: TextStyle(
+                      fontSize: 15, color: CupertinoColors.systemGrey),
                 ),
               ],
             ),
@@ -58,14 +67,13 @@ class ExhibitionCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                Icon(
-                    CupertinoIcons.calendar,
-                    size: 15,
-                    color: CupertinoColors.systemGrey),
+                Icon(CupertinoIcons.calendar,
+                    size: 15, color: CupertinoColors.systemGrey),
                 SizedBox(width: 4),
                 Text(
                   '${exhibition.getFormattedStartDate()} - ${exhibition.getFormattedEndDate()}',
-                  style: TextStyle(fontSize: 15, color: CupertinoColors.systemGrey),
+                  style: TextStyle(
+                      fontSize: 15, color: CupertinoColors.systemGrey),
                 ),
               ],
             ),
@@ -82,7 +90,8 @@ class ExhibitionCard extends StatelessWidget {
                 SizedBox(width: 4),
                 Text(
                   exhibition.getLocalizedStatus(),
-                  style: TextStyle(fontSize: 15, color: CupertinoColors.systemGrey),
+                  style: TextStyle(
+                      fontSize: 15, color: CupertinoColors.systemGrey),
                 ),
               ],
             ),
