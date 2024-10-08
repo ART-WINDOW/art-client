@@ -21,7 +21,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Art Window'), // 상단 바 제목
       ),
       body: IndexedStack(
         index: _currentIndex,

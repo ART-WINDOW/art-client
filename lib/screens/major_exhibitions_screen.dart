@@ -1,11 +1,55 @@
-import 'package:flutter/material.dart';
-import '../services/api_service.dart'; // Major 전시 정보를 가져오는 서비스 추가
-import '../models/exhibition.dart'; // Exhibition 모델을 가져옴
-import 'package:intl/intl.dart'; // 날짜 포맷을 위한 라이브러리
+import 'package:flutter/cupertino.dart';
+import '../models/exhibition.dart';
+import '../widgets/exhibition_card.dart';
+import '../services/api_service.dart';
+import 'package:intl/intl.dart'; // DateFormat을 사용하기 위해 추가
 
-// 주요 전시 정보를 보여주는 화면
-class MajorExhibitionsScreen extends StatelessWidget {
-  // 전시 상태를 한글로 변환하는 메서드
+class MajorExhibitionsScreen extends StatefulWidget {
+  @override
+  _MajorExhibitionsScreenState createState() => _MajorExhibitionsScreenState();
+}
+
+class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
+  final ScrollController _scrollController = ScrollController();
+  final ApiService _apiService = ApiService(); // ApiService 인스턴스 추가
+  List<Exhibition> _exhibitions = [];
+  bool _isLoading = false;
+  int _currentPage = 0;
+  final int _pageSize = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    _loadExhibitions();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading) {
+      _loadExhibitions();
+    }
+  }
+
+  Future<void> _loadExhibitions() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final newExhibitions = await _apiService.fetchMajorExhibitions(page: _currentPage, pageSize: _pageSize);
+      setState(() {
+        _exhibitions.addAll(newExhibitions);
+        _currentPage++;
+      });
+    } catch (error) {
+      // 오류 처리 로직 추가 가능
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   String getStatusText(String status) {
     switch (status) {
       case 'ONGOING':
@@ -19,7 +63,6 @@ class MajorExhibitionsScreen extends StatelessWidget {
     }
   }
 
-  // 날짜 포맷을 설정하는 메서드
   String formatDate(DateTime date) {
     final DateFormat formatter = DateFormat('yyyy년 MM월 dd일');
     return formatter.format(date);
@@ -27,53 +70,27 @@ class MajorExhibitionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ApiService 인스턴스를 생성하여 Major 전시 데이터를 가져옴
-    final apiService = ApiService();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = (screenWidth / 300).floor(); // 각 아이템의 너비를 300으로 가정
 
-    // Major 전시 데이터를 가져오는 Future 객체
-    final Future<List<Exhibition>> majorExhibitions = apiService.fetchMajorExhibitions(page: 0, pageSize: 10);
-
-    return FutureBuilder<List<Exhibition>>(
-      future: majorExhibitions, // Future 객체를 전달하여 데이터를 비동기로 로드
-      builder: (context, snapshot) {
-        // 데이터를 로딩 중일 때 표시할 위젯
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator()); // 로딩 중일 때 로딩 아이콘을 표시
-        }
-        // 오류 발생 시 표시할 위젯
-        else if (snapshot.hasError) {
-          return Center(child: Text('오류 발생: ${snapshot.error}')); // 오류 메시지 표시
-        }
-        // 데이터가 없거나 빈 경우에 표시할 위젯
-        else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('데이터가 없습니다.')); // 데이터가 없는 경우 메시지 표시
-        }
-        // 데이터를 성공적으로 불러온 경우 리스트뷰로 전시 정보를 표시
-        else {
-          return ListView.builder(
-            itemCount: snapshot.data!.length, // 전시 개수를 기준으로 리스트 항목을 생성
-            itemBuilder: (context, index) {
-              final exhibition = snapshot.data![index]; // 각 전시 데이터를 가져옴
-              return ListTile(
-                title: Text(exhibition.title), // 전시 제목 표시
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${formatDate(exhibition.startDate)} ~ ${formatDate(exhibition.endDate)}'), // 전시 날짜 표시
-                    Text('${exhibition.place}'), // 전시 장소와 상태 표시
-                    Text('${getStatusText(exhibition.status)}'),
-                    Text('${exhibition.area}'),
-                  ],
-                ),
-                trailing: Image.network(
-                  exhibition.imgUrl, // 전시 이미지 표시
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image), // 이미지 로딩 실패 시 아이콘 표시
-                ),
-              );
-            },
-          );
-        }
-      },
+    return CupertinoPageScaffold(
+      child: GridView.builder(
+        controller: _scrollController,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount, // 화면 너비에 따라 열 수를 동적으로 설정
+          crossAxisSpacing: 8.0,
+          mainAxisSpacing: 8.0,
+          childAspectRatio: 0.7, // 카드의 가로 세로 비율 조정
+        ),
+        itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
+        itemBuilder: (context, index) {
+          if (index == _exhibitions.length) {
+            return Center(child: CupertinoActivityIndicator());
+          }
+          final exhibition = _exhibitions[index];
+          return ExhibitionCard(exhibition: exhibition);
+        },
+      ),
     );
   }
 }
