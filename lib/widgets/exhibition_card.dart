@@ -47,8 +47,8 @@ class ExhibitionCard extends StatelessWidget {
                   Text(
                     exhibition.title,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    maxLines: 1, // 최대 2줄까지만 표시
-                    overflow: TextOverflow.ellipsis, // 넘치는 텍���트는 생략
+                    maxLines: 1, // 최대 1줄 까지만 표시
+                    overflow: TextOverflow.ellipsis, // 넘치는 텍스트는 생략
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
@@ -85,7 +85,7 @@ class ExhibitionCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 2),
                         Row(
                           children: [
                             Icon(
