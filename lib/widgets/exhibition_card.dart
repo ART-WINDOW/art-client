@@ -14,6 +14,7 @@ class ExhibitionCard extends StatelessWidget {
     Uint8List imageData = Uint8List.fromList(exhibition.imageData);
 
     return Card(
+      color: CupertinoColors.white,
       margin: EdgeInsets.all(8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0.0),
@@ -27,7 +28,7 @@ class ExhibitionCard extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 3 / 3.0, // 원하는 비율로 설정
               child: Image.memory(
-                imageData, // 서버에�� 받아온 이미지 데이터 사용
+                imageData, // 서버에서 받아온 이미지 데이터 사용
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) {

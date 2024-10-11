@@ -74,22 +74,25 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
     final crossAxisCount = (screenWidth / 350).floor(); // 각 아이템의 너비를 300으로 가정
 
     return CupertinoPageScaffold(
-      child: GridView.builder(
-        controller: _scrollController,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount, // 화면 너비에 따라 열 수를 동적으로 설정
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          childAspectRatio: 0.7, // 카드의 가로 세로 비율 조정
-        ),
-        itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index == _exhibitions.length) {
-            return Center(child: CupertinoActivityIndicator());
-          }
-          final exhibition = _exhibitions[index];
-          return ExhibitionCard(exhibition: exhibition);
-        },
+      child: Stack(
+        children: [
+          GridView.builder(
+            controller: _scrollController,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount, // 화면 너비에 따라 열 수를 동적으로 설정
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+              childAspectRatio: 0.7, // 카드의 가로 세로 비율 조정
+            ),
+            itemCount: _exhibitions.length,
+            itemBuilder: (context, index) {
+              final exhibition = _exhibitions[index];
+              return ExhibitionCard(exhibition: exhibition);
+            },
+          ),
+          if (_isLoading)
+            Center(child: CupertinoActivityIndicator()), // 로딩 이미지 중앙 배치
+        ],
       ),
     );
   }
