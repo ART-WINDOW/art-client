@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../screens/home_screen.dart';
 import '../screens/major_exhibitions_screen.dart';
 
@@ -88,24 +89,79 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
     )
-        : CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.info),
-            label: '전체 목록',
+        : Scaffold(
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 60.0), // 하단 여백 추가
+            child: _widgetOptions.elementAt(_selectedIndex),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.zoom_in),
-            label: '주요 전시',
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              decoration: BoxDecoration(
+                color: CupertinoColors.systemBackground, // 배경색 설정
+                border: Border(
+                  top: BorderSide(
+                    color: CupertinoColors.separator, // 테두리선 색상 설정
+                    width: 1.0, // 테두리선 두께 설정
+                  ),
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () => _onItemTapped(0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          CupertinoIcons.info,
+                          color: _selectedIndex == 0
+                              ? CupertinoColors.activeBlue
+                              : CupertinoColors.inactiveGray,
+                        ),
+                        Text(
+                          '전체 목록',
+                          style: TextStyle(
+                            color: _selectedIndex == 0
+                                ? CupertinoColors.activeBlue
+                                : CupertinoColors.inactiveGray,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => _onItemTapped(1),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          CupertinoIcons.zoom_in,
+                          color: _selectedIndex == 1
+                              ? CupertinoColors.activeBlue
+                              : CupertinoColors.inactiveGray,
+                        ),
+                        Text(
+                          '주요 전시',
+                          style: TextStyle(
+                            color: _selectedIndex == 1
+                                ? CupertinoColors.activeBlue
+                                : CupertinoColors.inactiveGray,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
-      tabBuilder: (context, index) {
-        return _widgetOptions.elementAt(index);
-      },
     );
   }
 }
