@@ -29,11 +29,11 @@ class Exhibition {
 
   // 날짜를 보기 좋은 형식으로 변환
   String getFormattedStartDate() {
-    return DateFormat('yyyy-MM-dd').format(startDate);
+    return DateFormat('yyyy.MM.dd').format(startDate);
   }
 
   String getFormattedEndDate() {
-    return DateFormat('yyyy-MM-dd').format(endDate);
+    return DateFormat('yyyy.MM.dd').format(endDate);
   }
 
   // 전시 상태를 한글로 변환

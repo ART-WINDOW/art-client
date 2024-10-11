@@ -71,7 +71,7 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = (screenWidth / 300).floor(); // 각 아이템의 너비를 300으로 가정
+    final crossAxisCount = (screenWidth / 350).floor(); // 각 아이템의 너비를 300으로 가정
 
     return CupertinoPageScaffold(
       child: GridView.builder(
