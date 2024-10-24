@@ -12,7 +12,7 @@ class Exhibition {
   final DateTime endDate;         // 종료 일자
   final String place;             // 장소
   final String status;            // 전시 상태 (예정, 진행 중, 종료)
-  List<int> imageData;      // 이미지 데이터
+  final String storageUrl;
 
   Exhibition({
     required this.id,
@@ -24,7 +24,7 @@ class Exhibition {
     required this.endDate,
     required this.place,
     required this.status,
-    required this.imageData,
+    required this.storageUrl,
   });
 
   // 날짜를 보기 좋은 형식으로 변환
@@ -62,7 +62,7 @@ class Exhibition {
       endDate: DateTime.parse(json['endDate']),
       place: json['place'] ?? '',
       status: json['status'] ?? '',
-      imageData: base64Decode(json['imageData'] ?? ''),
+      storageUrl: json['storageUrl'] ?? '',
     );
   }
 }
