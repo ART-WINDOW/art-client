@@ -1,17 +1,13 @@
-import 'dart:convert';
-
-import 'package:intl/intl.dart';
-
 class Exhibition {
-  final int id;                   // ID
-  final String title;             // 제목
-  final String description;       // 설명
-  final String imgUrl;            // 이미지 URL
-  final String area;              // 지역
-  final DateTime startDate;       // 시작 일자
-  final DateTime endDate;         // 종료 일자
-  final String place;             // 장소
-  final String status;            // 전시 상태 (예정, 진행 중, 종료)
+  final int id;
+  final String title;
+  final String description;
+  final String imgUrl;
+  final String area;
+  final DateTime startDate;
+  final DateTime endDate;
+  final String place;
+  final String status;
   final String storageUrl;
 
   Exhibition({
@@ -27,30 +23,6 @@ class Exhibition {
     required this.storageUrl,
   });
 
-  // 날짜를 보기 좋은 형식으로 변환
-  String getFormattedStartDate() {
-    return DateFormat('yyyy.MM.dd').format(startDate);
-  }
-
-  String getFormattedEndDate() {
-    return DateFormat('yyyy.MM.dd').format(endDate);
-  }
-
-  // 전시 상태를 한글로 변환
-  String getLocalizedStatus() {
-    switch (status) {
-      case 'SCHEDULED':
-        return '전시 예정';
-      case 'ONGOING':
-        return '전시 중';
-      case 'COMPLETED':
-        return '전시 종료';
-      default:
-        return status; // 정의되지 않은 상태가 있으면 그대로 표시
-    }
-  }
-
-  // JSON 데이터를 Dart 객체로 변환하는 메서드
   factory Exhibition.fromJson(Map<String, dynamic> json) {
     return Exhibition(
       id: json['id'] as int,
@@ -58,11 +30,32 @@ class Exhibition {
       description: json['description'] ?? '',
       imgUrl: json['imgUrl'] ?? '',
       area: json['area'] ?? '',
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
+      startDate: DateTime(json['startDate'][0], json['startDate'][1], json['startDate'][2]),
+      endDate: DateTime(json['endDate'][0], json['endDate'][1], json['endDate'][2]),
       place: json['place'] ?? '',
       status: json['status'] ?? '',
       storageUrl: json['storageUrl'] ?? '',
     );
+  }
+
+  String getFormattedStartDate() {
+    return '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+  }
+
+  String getFormattedEndDate() {
+    return '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
+  }
+
+  String getLocalizedStatus() {
+    switch (status) {
+      case 'ONGOING':
+        return '진행 중';
+      case 'UPCOMING':
+        return '예정';
+      case 'ENDED':
+        return '종료';
+      default:
+        return '알 수 없음';
+    }
   }
 }

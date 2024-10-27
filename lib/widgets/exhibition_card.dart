@@ -31,7 +31,17 @@ class ExhibitionCard extends StatelessWidget {
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
                   print('Error loading image: $error');
-                  return Icon(CupertinoIcons.photo);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CupertinoIcons.photo, size: 50, color: CupertinoColors.systemGrey),
+                      SizedBox(height: 8),
+                      Text(
+                        '이미지가 없습니다',
+                        style: TextStyle(color: CupertinoColors.systemGrey),
+                      ),
+                    ],
+                  );
                 },
               ),
             ),
