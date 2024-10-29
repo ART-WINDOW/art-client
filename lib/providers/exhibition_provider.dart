@@ -16,7 +16,7 @@ class ExhibitionProvider with ChangeNotifier {
   String? get errorMessage => _errorMessage; // 오류 메시지를 반환
 
   // 전시회 데이터를 로드하는 메서드
-  Future<void> loadExhibitions({int pageSize = 10}) async {
+  Future<void> loadExhibitions({int pageSize = 30}) async {
     if (_isLoading) return; // 이미 로딩 중이면 중복 호출 방지
 
     _isLoading = true; // 로딩 시작

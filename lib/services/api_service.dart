@@ -6,12 +6,12 @@ import '../models/museum.dart'; // Museum 모델을 가져옴
 // ApiService 클래스는 API 요청을 처리하는 역할을 한다.
 class ApiService {
   // API의 기본 URL
-  final String baseUrl = 'https://art-window.duckdns.org/api/v1';
+  // final String baseUrl = 'https://art-window.duckdns.org/api/v1';
   // 테스트용 URL
-  // final String baseUrl = 'http://localhost:8080/api/v1';
+  final String baseUrl = 'http://localhost:8080/api/v1';
 
   // Exhibition 데이터를 페이지 단위로 가져오는 메서드
-  Future<List<Exhibition>> fetchExhibitions({int page = 0, int pageSize = 9}) async {
+  Future<List<Exhibition>> fetchExhibitions({int page = 0, int pageSize = 15}) async {
     try {
       // http.get을 통해 GET 요청을 보낸다.
       final response = await http.get(
@@ -88,7 +88,6 @@ class ApiService {
       if (response.statusCode == 200) {
         // 응답 데이터를 JSON으로 파싱하고, UTF-8로 디코딩된 데이터를 사용
         final List<dynamic> jsonList = json.decode(decodedBody)['content'];
-        print('Major exhibitions data received successfully'); // 성공 로그
 
         // JSON 데이터를 Exhibition 객체로 변환하여 리스트로 반환
         return jsonList.map((json) => Exhibition.fromJson(json)).toList();
