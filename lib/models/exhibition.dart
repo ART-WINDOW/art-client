@@ -9,6 +9,7 @@ class Exhibition {
   final String place;
   final String status;
   final String storageUrl;
+  final String url;
 
   Exhibition({
     required this.id,
@@ -21,6 +22,7 @@ class Exhibition {
     required this.place,
     required this.status,
     required this.storageUrl,
+    required this.url,
   });
 
   factory Exhibition.fromJson(Map<String, dynamic> json) {
@@ -35,15 +37,16 @@ class Exhibition {
       place: json['place'] ?? '',
       status: json['status'] ?? '',
       storageUrl: json['storageUrl'] ?? '',
+      url: json['url'] ?? '',
     );
   }
 
   String getFormattedStartDate() {
-    return '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}';
+    return '${startDate.year}.${startDate.month.toString().padLeft(2, '0')}.${startDate.day.toString().padLeft(2, '0')}';
   }
 
   String getFormattedEndDate() {
-    return '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')}';
+    return '${endDate.year}.${endDate.month.toString().padLeft(2, '0')}.${endDate.day.toString().padLeft(2, '0')}';
   }
 
   String getLocalizedStatus() {

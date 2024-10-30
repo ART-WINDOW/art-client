@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (provider.isLoading && provider.exhibitions.isEmpty) {
             return Center(child: CupertinoActivityIndicator());
           } else if (provider.errorMessage != null) {
-            return Center(child: Text('오류 발생: ${provider.errorMessage}'));
+            return Center(child: Text('${provider.errorMessage}'));
           } else if (provider.exhibitions.isEmpty) {
             return Center(child: Text('데이터가 없습니다.'));
           } else {

@@ -5,6 +5,7 @@ import 'providers/major_exhibition_provider.dart';
 import 'screens/main_navigation_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
