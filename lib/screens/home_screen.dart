@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = (screenWidth / 330).floor(); // 각 아이템의 너비를 400으로 가정
+    final crossAxisCount = (screenWidth / 400).floor(); // 각 아이템의 너비를 400으로 가정
 
     return CupertinoPageScaffold(
       child: Consumer<ExhibitionProvider>(

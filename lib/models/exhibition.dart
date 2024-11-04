@@ -10,6 +10,7 @@ class Exhibition {
   final String status;
   final String storageUrl;
   final String url;
+  final String price;
 
   Exhibition({
     required this.id,
@@ -23,6 +24,7 @@ class Exhibition {
     required this.status,
     required this.storageUrl,
     required this.url,
+    required this.price,
   });
 
   factory Exhibition.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class Exhibition {
       startDate: DateTime(json['startDate'][0], json['startDate'][1], json['startDate'][2]),
       endDate: DateTime(json['endDate'][0], json['endDate'][1], json['endDate'][2]),
       place: json['place'] ?? '',
+      price: json['price'] ?? '',
       status: json['status'] ?? '',
       storageUrl: json['storageUrl'] ?? '',
       url: json['url'] ?? '',

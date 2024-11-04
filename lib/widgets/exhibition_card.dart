@@ -120,6 +120,26 @@ class ExhibitionCard extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: CupertinoColors.systemGrey),
+                                        borderRadius: BorderRadius.circular(4.0),
+                                      ),
+                                      child: Text(
+                                        exhibition.price.isNotEmpty ? exhibition.price : '정보 없음',
+                                        style: TextStyle(fontSize: 16, color: CupertinoColors.systemGrey),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
