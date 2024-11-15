@@ -1,6 +1,6 @@
-# art
+# ART-WINDOW
 
-Doma's first personal project.
+When you want to visit an exhibition casually.
 
 ## Getting Started
 

@@ -1,11 +1,11 @@
 {
-    "name": "art",
-    "short_name": "art",
+    "name": "ART-WINDOW",
+    "short_name": "ART-WINDOW",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Doma's first personal project.",
+    "description": "When you want to visit an exhibition casually",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
