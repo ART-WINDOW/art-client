@@ -39,10 +39,11 @@ class ExhibitionCard extends StatelessWidget {
                     aspectRatio: 3 / 3.0,
                     child: Image.network(
                       exhibition.storageUrl,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fitHeight,
                       width: double.infinity,
                       errorBuilder: (context, error, stackTrace) {
                         print('Error loading image: $error');
+                        print('Stack trace: $stackTrace');
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
