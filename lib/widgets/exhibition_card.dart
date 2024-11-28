@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+import 'dart:ui_web';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,10 +8,27 @@ import '../models/exhibition.dart';
 class ExhibitionCard extends StatelessWidget {
   final Exhibition exhibition;
 
-  ExhibitionCard({required this.exhibition});
+  ExhibitionCard({required this.exhibition}) {
+    // viewType 등록
+    final String viewType = 'image-view-${exhibition.storageUrl.hashCode}';
+    platformViewRegistry.registerViewFactory(viewType, (int viewId) {
+      final html.ImageElement imageElement = html.ImageElement()
+        ..src = exhibition.storageUrl
+        ..alt = "Exhibition Image"
+        ..style.width = "100%"
+        ..style.height = "100%"
+        ..style.objectFit = "contain"
+        ..onError.listen((event) {
+          print('Error loading image: ${exhibition.storageUrl}');
+        });
+      return imageElement;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final String viewType = 'image-view-${exhibition.storageUrl.hashCode}';
+
     return GestureDetector(
       onTap: () async {
         if (exhibition.url.isNotEmpty) {
@@ -36,26 +55,9 @@ class ExhibitionCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
                   child: AspectRatio(
-                    aspectRatio: 3 / 3.0,
-                    child: Image.network(
-                      exhibition.storageUrl,
-                      fit: BoxFit.fitHeight,
-                      width: double.infinity,
-                      errorBuilder: (context, error, stackTrace) {
-                        print('Error loading image: $error');
-                        print('Stack trace: $stackTrace');
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(CupertinoIcons.photo, size: 50, color: CupertinoColors.systemGrey),
-                            SizedBox(height: 8),
-                            Text(
-                              '이미지가 없습니다',
-                              style: TextStyle(color: CupertinoColors.systemGrey),
-                            ),
-                          ],
-                        );
-                      },
+                    aspectRatio: 3 / 3.0, // 기존 이미지 비율 유지
+                    child: HtmlElementView(
+                      viewType: viewType,
                     ),
                   ),
                 ),
