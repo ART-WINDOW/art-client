@@ -12,16 +12,30 @@ class ExhibitionCard extends StatelessWidget {
     // viewType 등록
     final String viewType = 'image-view-${exhibition.storageUrl.hashCode}';
     platformViewRegistry.registerViewFactory(viewType, (int viewId) {
+      final html.DivElement container = html.DivElement()
+        ..style.width = "100%"
+        ..style.height = "100%"
+        ..style.position = "relative";
+
       final html.ImageElement imageElement = html.ImageElement()
         ..src = exhibition.storageUrl
-        ..alt = "Exhibition Image"
         ..style.width = "100%"
         ..style.height = "100%"
         ..style.objectFit = "contain"
         ..onError.listen((event) {
-          print('Error loading image: ${exhibition.storageUrl}');
+          container.children.clear();
+          final html.DivElement iconElement = html.DivElement()
+            ..style.width = "100%"
+            ..style.height = "100%"
+            ..style.display = "flex"
+            ..style.alignItems = "center"
+            ..style.justifyContent = "center"
+            ..innerHtml = '<i class="material-icons" style="font-size: 48px; color: grey;">이미지가 없습니다</i>';
+          container.append(iconElement);
         });
-      return imageElement;
+
+      container.append(imageElement);
+      return container;
     });
   }
 

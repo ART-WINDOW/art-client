@@ -53,13 +53,13 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   String getStatusText(String status) {
     switch (status) {
       case 'ONGOING':
-        return '전시중';
+        return '전시 중';
       case 'SCHEDULED':
         return '예정';
       case 'COMPLETED':
         return '종료';
       default:
-        return '알 수 없음';
+        return '예정';
     }
   }
 

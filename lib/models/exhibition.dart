@@ -55,13 +55,13 @@ class Exhibition {
   String getLocalizedStatus() {
     switch (status) {
       case 'ONGOING':
-        return '진행 중';
+        return '전시 중';
       case 'UPCOMING':
         return '예정';
       case 'ENDED':
         return '종료';
       default:
-        return '알 수 없음';
+        return '예정';
     }
   }
 }
