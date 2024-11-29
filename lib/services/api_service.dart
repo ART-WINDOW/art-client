@@ -17,7 +17,8 @@ class ApiService {
       final response = await http.get(
         Uri.parse('$baseUrl/exhibitions?page=$page&pageSize=$pageSize'),
         headers: {
-          'Content-Type': 'application/json', // 요청 헤더 설정
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Mobile)'
         },
       );
 
@@ -47,7 +48,8 @@ class ApiService {
       final response = await http.get(
         Uri.parse('$baseUrl/museums?page=$page&pageSize=$pageSize'),
         headers: {
-          'Content-Type': 'application/json', // 요청 헤더 설정
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Mobile)'
         },
       );
 
@@ -77,7 +79,8 @@ class ApiService {
       final response = await http.get(
         Uri.parse('$baseUrl/exhibitions/major?page=$page&pageSize=$pageSize'),
         headers: {
-          'Content-Type': 'application/json', // 요청 헤더 설정
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Mobile)'
         },
       );
 
