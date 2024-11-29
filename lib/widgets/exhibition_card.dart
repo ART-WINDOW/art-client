@@ -81,11 +81,14 @@ class ExhibitionCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          exhibition.title,
-                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
+                          child: Text(
+                            exhibition.title,
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
