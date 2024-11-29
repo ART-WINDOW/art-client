@@ -10,7 +10,7 @@ class ExhibitionCard extends StatelessWidget {
 
   ExhibitionCard({required this.exhibition}) {
     // viewType 등록
-    final String viewType = 'image-view-${exhibition.storageUrl.hashCode}';
+    final String viewType = 'image-view-${exhibition.imgUrl.hashCode}';
     platformViewRegistry.registerViewFactory(viewType, (int viewId) {
       final html.DivElement container = html.DivElement()
         ..style.width = "100%"
@@ -18,7 +18,7 @@ class ExhibitionCard extends StatelessWidget {
         ..style.position = "relative";
 
       final html.ImageElement imageElement = html.ImageElement()
-        ..src = exhibition.storageUrl
+        ..src = exhibition.imgUrl
         ..style.width = "100%"
         ..style.height = "100%"
         ..style.objectFit = "contain"
@@ -41,7 +41,7 @@ class ExhibitionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String viewType = 'image-view-${exhibition.storageUrl.hashCode}';
+    final String viewType = 'image-view-${exhibition.imgUrl.hashCode}';
 
     return GestureDetector(
       onTap: () async {
