@@ -45,7 +45,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       size: 18,
                       color: _selectedIndex == 0
                           ? CupertinoColors.activeBlue
-                          : CupertinoColors.inactiveGray,
+                          : CupertinoColors.black,
                     ),
                     SizedBox(width: 2),
                     Text(
@@ -53,7 +53,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       style: TextStyle(
                         color: _selectedIndex == 0
                             ? CupertinoColors.activeBlue
-                            : CupertinoColors.inactiveGray,
+                            : CupertinoColors.black,
                       ),
                     ),
                   ],
@@ -70,7 +70,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       size: 18,
                       color: _selectedIndex == 1
                           ? CupertinoColors.activeBlue
-                          : CupertinoColors.inactiveGray,
+                          : CupertinoColors.black,
                     ),
                     SizedBox(width: 2),
                     Text(
@@ -78,7 +78,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       style: TextStyle(
                         color: _selectedIndex == 1
                             ? CupertinoColors.activeBlue
-                            : CupertinoColors.inactiveGray,
+                            : CupertinoColors.black,
                       ),
                     ),
                   ],
@@ -95,7 +95,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       size: 18,
                       color: _selectedIndex == 2
                           ? CupertinoColors.activeBlue
-                          : CupertinoColors.inactiveGray,
+                          : CupertinoColors.black,
                     ),
                     SizedBox(width: 2),
                     Text(
@@ -103,7 +103,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                       style: TextStyle(
                         color: _selectedIndex == 2
                             ? CupertinoColors.activeBlue
-                            : CupertinoColors.inactiveGray,
+                            : CupertinoColors.black,
                       ),
                     ),
                   ],
@@ -150,14 +150,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                           CupertinoIcons.info,
                           color: _selectedIndex == 0
                               ? CupertinoColors.activeBlue
-                              : CupertinoColors.inactiveGray,
+                              : CupertinoColors.black,
                         ),
                         Text(
                           '전체 목록',
                           style: TextStyle(
                             color: _selectedIndex == 0
                                 ? CupertinoColors.activeBlue
-                                : CupertinoColors.inactiveGray,
+                                : CupertinoColors.black,
                           ),
                         ),
                       ],
@@ -172,14 +172,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                           CupertinoIcons.zoom_in,
                           color: _selectedIndex == 1
                               ? CupertinoColors.activeBlue
-                              : CupertinoColors.inactiveGray,
+                              : CupertinoColors.black,
                         ),
                         Text(
                           '주요 전시',
                           style: TextStyle(
                             color: _selectedIndex == 1
                                 ? CupertinoColors.activeBlue
-                                : CupertinoColors.inactiveGray,
+                                : CupertinoColors.black,
                           ),
                         ),
                       ],
@@ -194,14 +194,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                           CupertinoIcons.question_circle,
                           color: _selectedIndex == 2
                               ? CupertinoColors.activeBlue
-                              : CupertinoColors.inactiveGray,
+                              : CupertinoColors.black,
                         ),
                         Text(
                           '도움말',
                           style: TextStyle(
                             color: _selectedIndex == 2
                                 ? CupertinoColors.activeBlue
-                                : CupertinoColors.inactiveGray,
+                                : CupertinoColors.black,
                           ),
                         ),
                       ],
