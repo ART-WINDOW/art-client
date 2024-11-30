@@ -9,6 +9,16 @@ class ExhibitionCard extends StatelessWidget {
   final Exhibition exhibition;
 
   ExhibitionCard({required this.exhibition}) {
+    // 스타일 추가
+    final styleElement = html.StyleElement()
+      ..text = '''
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    ''';
+    html.document.head?.append(styleElement);
+
     final String viewType = 'image-view-${exhibition.imgUrl.hashCode}';
     platformViewRegistry.registerViewFactory(viewType, (int viewId) {
       final html.DivElement container = html.DivElement()
@@ -20,19 +30,41 @@ class ExhibitionCard extends StatelessWidget {
         ..src = exhibition.imgUrl
         ..style.width = "100%"
         ..style.height = "100%"
-        ..style.objectFit = "contain"
-        ..onError.listen((event) {
-          container.children.clear();
-          final html.DivElement iconElement = html.DivElement()
-            ..style.width = "100%"
-            ..style.height = "100%"
-            ..style.display = "flex"
-            ..style.alignItems = "center"
-            ..style.justifyContent = "center"
-            ..innerHtml =
-                '<i class="material-icons" style="font-size: 44px; color: grey;">이미지가 없습니다</i>';
-          container.append(iconElement);
-        });
+        ..style.objectFit = "contain";
+
+// 이미지 로딩 시작 시 로딩 인디케이터 표시
+      container.append(html.DivElement()
+        ..style.width = "100%"
+        ..style.height = "100%"
+        ..style.display = "flex"
+        ..style.alignItems = "center"
+        ..style.justifyContent = "center"
+        ..append(html.DivElement()
+          ..className = "loading-spinner"
+          ..style.border = "4px solid #f3f3f3"
+          ..style.borderTop = "4px solid #6B7AED"
+          ..style.borderRadius = "50%"
+          ..style.width = "30px"
+          ..style.height = "30px"
+          ..style.animation = "spin 1s linear infinite"));
+
+// 이미지 로드 완료 시 로딩 인디케이터 제거하고 이미지 표시
+      imageElement.onLoad.listen((event) {
+        container.children.clear();
+        container.append(imageElement);
+      });
+
+// 이미지 로드 실패 시 에러 메시지 표시
+      imageElement.onError.listen((event) {
+        container.children.clear();
+        container.append(html.DivElement()
+          ..style.width = "100%"
+          ..style.height = "100%"
+          ..style.display = "flex"
+          ..style.alignItems = "center"
+          ..style.justifyContent = "center"
+          ..innerHtml = "이미지를 불러올 수 없습니다");
+      });
 
       container.append(imageElement);
       return container;

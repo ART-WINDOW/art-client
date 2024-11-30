@@ -1,3 +1,4 @@
+import 'package:ART_WINDOW/screens/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'providers/exhibition_provider.dart';
@@ -21,7 +22,9 @@ class MyApp extends StatelessWidget {
         theme: CupertinoThemeData(
           primaryColor: CupertinoColors.systemIndigo,
         ),
-        home: MainNavigationScreen(),
+        home: LoadingScreen(
+          child: MainNavigationScreen(),
+        ),
       ),
     );
   }
