@@ -155,8 +155,8 @@ class ExhibitionCard extends StatelessWidget {
                         ),
                         child: Text(
                           exhibition.price.isNotEmpty
-                              ? exhibition.price.length > 20
-                                  ? '${exhibition.price.substring(0, 20)}...'
+                              ? exhibition.price.length > 15
+                                  ? '${exhibition.price.substring(0, 15)}...'
                                   : exhibition.price
                               : '정보 없음',
                           style: TextStyle(

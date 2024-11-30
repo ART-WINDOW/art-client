@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../models/exhibition.dart';
 import '../widgets/exhibition_card.dart';
 import '../services/api_service.dart';
+import '../widgets/loading_overlay.dart';
 
 class MajorExhibitionsScreen extends StatefulWidget {
   @override
@@ -102,15 +103,9 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
     );
 
     return CupertinoPageScaffold(
-      child: Stack(
-        children: [
-          if (_exhibitions.isEmpty && _isLoading)
-            Center(child: CupertinoActivityIndicator())
-          else if (_exhibitions.isEmpty)
-            Center(child: Text('데이터가 없습니다.'))
-          else
-            mainContent,
-        ],
+      child: LoadingOverlay(
+        isLoading: _isLoading && _exhibitions.isEmpty,
+        child: mainContent,
       ),
     );
   }

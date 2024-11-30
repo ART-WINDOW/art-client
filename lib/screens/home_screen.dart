@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import '../providers/exhibition_provider.dart';
 import '../widgets/exhibition_card.dart';
+import '../widgets/loading_overlay.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -95,7 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           );
 
-          return mainContent;
+          return LoadingOverlay(
+            isLoading: provider.isLoading && provider.exhibitions.isEmpty,
+            child: mainContent,
+          );
+
         },
       ),
     );
