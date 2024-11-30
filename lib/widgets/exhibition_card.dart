@@ -155,8 +155,8 @@ class ExhibitionCard extends StatelessWidget {
                         ),
                         child: Text(
                           exhibition.price.isNotEmpty
-                              ? exhibition.price.length > 30
-                                  ? '${exhibition.price.substring(0, 30)}...'
+                              ? exhibition.price.length > 20
+                                  ? '${exhibition.price.substring(0, 20)}...'
                                   : exhibition.price
                               : '정보 없음',
                           style: TextStyle(
@@ -267,7 +267,7 @@ class ExhibitionCard extends StatelessWidget {
                             children: [
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 3.8),
+                                    horizontal: 8.0, vertical: 3.6),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 1.6, color: Color(0xFF6B7AED)),
@@ -281,7 +281,7 @@ class ExhibitionCard extends StatelessWidget {
                                       : '정보 없음',
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 16,
+                                      fontSize: 15,
                                       color: Color(0xFF6B7AED)),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
