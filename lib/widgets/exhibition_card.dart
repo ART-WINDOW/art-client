@@ -294,7 +294,7 @@ class ExhibitionCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: 6),
                           Row(
                             children: [
                               Container(
