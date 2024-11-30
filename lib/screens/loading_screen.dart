@@ -20,7 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> _loadFont() async {
     // 약간의 지연을 줘서 폰트가 확실히 로드되도록 함
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(Duration(milliseconds: 800));
     if (mounted) {
       setState(() {
         _isLoaded = true;
