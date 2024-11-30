@@ -11,7 +11,7 @@ class ApiService {
   // final String baseUrl = 'http://localhost:8080/api/v1';
 
   // Exhibition 데이터를 페이지 단위로 가져오는 메서드
-  Future<List<Exhibition>> fetchExhibitions({int page = 0, int pageSize = 15}) async {
+  Future<List<Exhibition>> fetchExhibitions({int page = 0, int pageSize = 12}) async {
     try {
       // http.get을 통해 GET 요청을 보낸다.
       final response = await http.get(
@@ -73,7 +73,7 @@ class ApiService {
   }
 
   // Major Exhibitions(주요 전시회) 데이터를 가져오는 메서드
-  Future<List<Exhibition>> fetchMajorExhibitions({int page = 0, int pageSize = 9}) async {
+  Future<List<Exhibition>> fetchMajorExhibitions({int page = 0, int pageSize = 12}) async {
     try {
       // 주요 전시회의 데이터를 가져오기 위해 별도의 API 엔드포인트 호출
       final response = await http.get(
