@@ -63,7 +63,7 @@ class ExhibitionCard extends StatelessWidget {
           ..style.display = "flex"
           ..style.alignItems = "center"
           ..style.justifyContent = "center"
-          ..innerHtml = "이미지를 불러올 수 없습니다");
+          ..innerHtml = "이미지가\n없습니다");
       });
 
       container.append(imageElement);
@@ -123,33 +123,16 @@ class ExhibitionCard extends StatelessWidget {
                 children: [
                   Text(
                     exhibition.title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(CupertinoIcons.building_2_fill,
-                          size: 14, color: Color(0xFF6B7AED)),
-                      SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          '${exhibition.place} | ${exhibition.area}',
-                          style: TextStyle(
-                              fontSize: 14, color: CupertinoColors.black),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Icon(CupertinoIcons.calendar,
                           size: 14, color: Color(0xFF6B7AED)),
-                      SizedBox(width: 4),
+                      SizedBox(width: 2),
                       Expanded(
                         child: Text(
                           '${exhibition.getFormattedStartDate()} - ${exhibition.getFormattedEndDate()}',
@@ -161,7 +144,41 @@ class ExhibitionCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Icon(CupertinoIcons.location_solid,
+                          size: 14, color: Color(0xFF6B7AED)),
+                      SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          '${exhibition.place}',
+                          style: TextStyle(
+                              fontSize: 14, color: CupertinoColors.black),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Icon(CupertinoIcons.map,
+                          size: 14, color: Color(0xFF6B7AED)),
+                      SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          '${exhibition.area}',
+                          style: TextStyle(
+                              fontSize: 14, color: CupertinoColors.black),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Icon(CupertinoIcons.time,
