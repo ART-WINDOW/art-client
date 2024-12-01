@@ -127,7 +127,7 @@ class ExhibitionCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 2),
+                  SizedBox(height: 5),
                   Row(
                     children: [
                       Icon(CupertinoIcons.calendar,
