@@ -57,13 +57,11 @@ class ExhibitionCard extends StatelessWidget {
 // 이미지 로드 실패 시 에러 메시지 표시
       imageElement.onError.listen((event) {
         container.children.clear();
-        container.append(html.DivElement()
+        container.append(html.ImageElement()
+          ..src = 'assets/images/no-image.png' // 플레이스홀더 이미지 경로
           ..style.width = "100%"
           ..style.height = "100%"
-          ..style.display = "flex"
-          ..style.alignItems = "center"
-          ..style.justifyContent = "center"
-          ..innerHtml = "이미지가\n없습니다");
+          ..style.objectFit = "contain");
       });
 
       container.append(imageElement);

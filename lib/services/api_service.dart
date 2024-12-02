@@ -102,4 +102,24 @@ class ApiService {
       throw Exception('Failed to load major exhibitions'); // 오류를 다시 던짐
     }
   }
-}
+
+  Future<List<Exhibition>> fetchExhibitionsByArea({
+    required String area,
+    int page = 0,
+    int pageSize = 20,
+  }) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/exhibitions/area?area=$area&page=$page&pageSize=$pageSize'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final List<dynamic> jsonList = json.decode(decodedBody)['content'];
+      return jsonList.map((json) => Exhibition.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load exhibitions for area $area');
+    }
+  }
+
+} // ApiService 클래스 끝
