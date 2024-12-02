@@ -58,7 +58,7 @@ class ExhibitionCard extends StatelessWidget {
       imageElement.onError.listen((event) {
         container.children.clear();
         container.append(html.ImageElement()
-          ..src = 'assets/images/no-image.png' // 플레이스홀더 이미지 경로
+          ..src = '/assets/images/no-image.png' // 플레이스홀더 이미지 경로
           ..style.width = "100%"
           ..style.height = "100%"
           ..style.objectFit = "contain");
