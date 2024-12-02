@@ -58,7 +58,7 @@ class Exhibition {
         return '전시 중';
       case 'UPCOMING':
         return '예정';
-      case 'ENDED':
+      case 'COMPLETED':
         return '종료';
       default:
         return '예정';
