@@ -207,10 +207,15 @@ class ExhibitionCard extends StatelessWidget {
                   alignment: Alignment.center,
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
-                      child: Icon(
-                        CupertinoIcons.photo,
-                        size: 48,
-                        color: Colors.grey,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            0.22, // 화면 너비의 15%
+                        height: MediaQuery.of(context).size.width *
+                            0.22, // 정사각형 유지를 위해 너비와 동일
+                        child: Image.asset(
+                          'assets/images/no-image.png',
+                          fit: BoxFit.contain, // 비율 유지하면서 컨테이너에 맞춤
+                        ),
                       ),
                     );
                   },
