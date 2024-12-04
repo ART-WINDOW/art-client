@@ -4,6 +4,8 @@ import '../screens/home_screen.dart';
 import '../screens/major_exhibitions_screen.dart';
 import '../screens/help_screen.dart';
 import '../screens/area_screen.dart';
+import '../providers/modal_state_provider.dart';
+import 'package:provider/provider.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   @override
@@ -28,24 +30,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _showAreaMenu(BuildContext context) {
+    final modalProvider = Provider.of<ModalStateProvider>(context, listen: false);
+    modalProvider.setModalVisible(true);  // 모달 열기 전에 상태 설정
+
     showCupertinoModalPopup(
       context: context,
       builder: (BuildContext context) {
         return CupertinoActionSheet(
           title: Padding(
-            padding: EdgeInsets.only(bottom: 8.0), // 제목 아래 여백
+            padding: EdgeInsets.only(bottom: 8.0),
             child: Text(
               '지역 선택',
-              style: TextStyle(fontSize: 16,
-                  fontWeight: FontWeight.bold), // 제목 스타일
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           actions: areas.map((area) {
             return Padding(
-              padding: EdgeInsets.symmetric(vertical: 0.0), // 각 항목 사이 간격
+              padding: EdgeInsets.symmetric(vertical: 0.0),
               child: CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
+                  modalProvider.setModalVisible(false);  // 상태 업데이트
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -55,21 +60,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 },
                 child: Text(
                   area,
-                  style: TextStyle(fontSize: 14), // 글자 크기 조정
+                  style: TextStyle(fontSize: 14),
                 ),
               ),
             );
           }).toList(),
           cancelButton: Padding(
-            padding: EdgeInsets.only(), // 취소 버튼 위 여백
+            padding: EdgeInsets.only(),
             child: CupertinoActionSheetAction(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+                modalProvider.setModalVisible(false);  // 상태 업데이트
+              },
               child: Text('취소'),
             ),
           ),
         );
       },
-    );
+    ).whenComplete(() {
+      modalProvider.setModalVisible(false);  // 모달이 어떤 방식으로든 닫힐 때
+    });
   }
 
   @override

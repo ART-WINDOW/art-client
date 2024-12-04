@@ -1,3 +1,4 @@
+import 'package:ART_WINDOW/providers/modal_state_provider.dart';
 import 'package:ART_WINDOW/screens/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ExhibitionProvider()),
         ChangeNotifierProvider(create: (_) => MajorExhibitionProvider()),
+        ChangeNotifierProvider(create: (_) => ModalStateProvider()), // 추가
       ],
       child: CupertinoApp(
         theme: CupertinoThemeData(
