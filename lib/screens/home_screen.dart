@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisCount: max(1, (screenWidth / 400).floor()),
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
-              childAspectRatio: 0.65,
+              childAspectRatio: 0.67,
             ),
             itemCount:
             ongoingExhibitions.length + (provider.isLoading ? 1 : 0),
