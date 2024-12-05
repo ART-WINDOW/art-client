@@ -98,7 +98,7 @@ class ExhibitionProvider with ChangeNotifier {
       _exhibitions.addAll(uniqueExhibitions);
       _currentPage++;
     } catch (e) {
-      _errorMessage = '데이터를 불러오는 중 오류가 발생했습니다: $e';
+      _errorMessage = '서버가 잠시 점검중이에요.\n다음에 다시 방문해주세요';
     } finally {
       _isLoading = false;
       notifyListeners();
