@@ -55,6 +55,37 @@ class _HomeScreenState extends State<HomeScreen> {
     return CupertinoPageScaffold(
       child: Consumer<ExhibitionProvider>(
         builder: (context, provider, child) {
+          if (provider.lastSearchKeyword.isNotEmpty && provider.searchResults.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    CupertinoIcons.search,
+                    size: 50,
+                    color: CupertinoColors.systemGrey,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    '"${provider.lastSearchKeyword}" 검색 결과가 없어요..',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: CupertinoColors.systemGrey,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    '다른 검색어로 다시 시도해주세요!',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: CupertinoColors.systemGrey,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           // 검색 결과가 있으면 검색 결과를, 없으면 전체 전시 목록을 표시
           final displayList = provider.searchResults.isNotEmpty
               ? provider.searchResults

@@ -79,7 +79,9 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: CupertinoActivityIndicator(),
+                    child: CupertinoActivityIndicator(
+                      radius: 11,
+                    ),
                   ),
                 );
               }

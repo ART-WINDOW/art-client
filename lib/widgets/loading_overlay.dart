@@ -22,7 +22,7 @@ class LoadingOverlay extends StatelessWidget {
               color: CupertinoColors.systemBackground.withOpacity(0.7),
               child: const Center(
                 child: CupertinoActivityIndicator(
-                  radius: 20.0,
+                  radius: 13.0,
                 ),
               ),
             ),
