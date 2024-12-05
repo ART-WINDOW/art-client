@@ -55,7 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return CupertinoPageScaffold(
       child: Consumer<ExhibitionProvider>(
         builder: (context, provider, child) {
-          if (provider.lastSearchKeyword.isNotEmpty && provider.searchResults.isEmpty) {
+          // 로딩 중일 때는 결과 없음 메시지를 표시하지 않음
+          if (provider.lastSearchKeyword.isNotEmpty &&
+              provider.searchResults.isEmpty &&
+              !provider.isLoading) {  // 로딩 상태 체크 추가
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '다른 검색어로 다시 시도해주세요!',
+                    '다른 검색어로 다시 시도해보세요!',
                     style: TextStyle(
                       fontSize: 14,
                       color: CupertinoColors.systemGrey,
