@@ -6,9 +6,9 @@ import '../models/museum.dart'; // Museum 모델을 가져옴
 // ApiService 클래스는 API 요청을 처리하는 역할을 한다.
 class ApiService {
   // API의 기본 URL
-  final String baseUrl = 'https://art-window.duckdns.org/api/v1';
+  // final String baseUrl = 'https://art-window.duckdns.org/api/v1';
   // 테스트용 URL
-  // final String baseUrl = 'http://localhost:8080/api/v1';
+  final String baseUrl = 'http://localhost:8080/api/v1';
 
   // Exhibition 데이터를 페이지 단위로 가져오는 메서드
   Future<List<Exhibition>> fetchExhibitions({int page = 0, int pageSize = 12}) async {
@@ -119,6 +119,40 @@ class ApiService {
       return jsonList.map((json) => Exhibition.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load exhibitions for area $area');
+    }
+  }
+
+  Future<List<Exhibition>> searchExhibitions({
+    String? keyword,
+    String? area,
+    int page = 0,
+    int pageSize = 12,
+  }) async {
+    try {
+      final queryParams = {
+        if (keyword != null && keyword.isNotEmpty) 'keyword': keyword,
+        if (area != null && area.isNotEmpty) 'area': area,
+        'page': page.toString(),
+        'pageSize': pageSize.toString(),
+      };
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/exhibitions/search').replace(queryParameters: queryParams),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        final decodedBody = utf8.decode(response.bodyBytes);
+        final data = json.decode(decodedBody);
+        final content = data['content'] as List;
+        return content.map((json) => Exhibition.fromJson(json)).toList();
+      } else {
+        print('Search API Error: ${response.statusCode} - ${response.body}');
+        throw Exception('Failed to search exhibitions');
+      }
+    } catch (e) {
+      print('Search Error: $e');
+      throw Exception('Failed to search exhibitions');
     }
   }
 

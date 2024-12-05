@@ -32,7 +32,9 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !_isLoading) {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_isLoading) {
       _loadExhibitions();
     }
   }
@@ -45,10 +47,12 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
     });
 
     try {
-      final newExhibitions = await _apiService.fetchMajorExhibitions(page: _currentPage, pageSize: _pageSize);
+      final newExhibitions = await _apiService.fetchMajorExhibitions(
+          page: _currentPage, pageSize: _pageSize);
       setState(() {
         _exhibitions.addAll(newExhibitions.where((newExhibition) {
-          return !_exhibitions.any((existing) => existing.id == newExhibition.id);
+          return !_exhibitions
+              .any((existing) => existing.id == newExhibition.id);
         }).toList());
         _currentPage++;
       });
@@ -67,40 +71,43 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
 
     Widget mainContent = screenWidth <= 600
         ? ListView.builder(
-      controller: _scrollController,
-      padding: EdgeInsets.all(8),
-      itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index == _exhibitions.length) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: CupertinoActivityIndicator(),
-            ),
-          );
-        }
-        final exhibition = _exhibitions[index];
-        return ExhibitionCard(exhibition: exhibition);
-      },
-    )
+            controller: _scrollController,
+            padding: EdgeInsets.all(8),
+            itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == _exhibitions.length) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CupertinoActivityIndicator(),
+                  ),
+                );
+              }
+              final exhibition = _exhibitions[index];
+              return ExhibitionCard(exhibition: exhibition);
+            },
+          )
         : GridView.builder(
-      controller: _scrollController,
-      padding: EdgeInsets.all(16),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: max(1, (screenWidth / 400).floor()),
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 0.67,
-      ),
-      itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index == _exhibitions.length) {
-          return Center(child: CupertinoActivityIndicator());
-        }
-        final exhibition = _exhibitions[index];
-        return ExhibitionCard(exhibition: exhibition);
-      },
-    );
+            controller: _scrollController,
+            padding: EdgeInsets.all(16),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: max(1, (screenWidth / 400).floor()),
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 0.67,
+            ),
+            itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == _exhibitions.length) {
+                return Center(
+                    child: CupertinoActivityIndicator(
+                  radius: 13,
+                ));
+              }
+              final exhibition = _exhibitions[index];
+              return ExhibitionCard(exhibition: exhibition);
+            },
+          );
 
     return CupertinoPageScaffold(
       child: LoadingOverlay(

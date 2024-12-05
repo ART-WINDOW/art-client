@@ -5,6 +5,13 @@ import '../providers/exhibition_provider.dart';
 import '../widgets/exhibition_card.dart';
 import '../widgets/loading_overlay.dart';
 
+import 'dart:math' show max;
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import '../providers/exhibition_provider.dart';
+import '../widgets/exhibition_card.dart';
+import '../widgets/loading_overlay.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -29,12 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+// home_screen.dart
   void _onScroll() {
     final provider = Provider.of<ExhibitionProvider>(context, listen: false);
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent &&
         !provider.isLoading) {
-      provider.loadExhibitions();
+      if (provider.searchResults.isNotEmpty) {
+        // 검색 결과가 있는 경우 검색 페이징
+        provider.searchExhibitions(
+          keyword: provider.lastSearchKeyword,  // lastSearchKeyword를 public으로 만들거나 getter 추가 필요
+          area: null,
+        );
+      } else {
+        // 일반 전시 목록 페이징
+        provider.loadExhibitions();
+      }
     }
   }
 
@@ -45,15 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
     return CupertinoPageScaffold(
       child: Consumer<ExhibitionProvider>(
         builder: (context, provider, child) {
-          if (provider.isLoading && provider.exhibitions.isEmpty) {
+          // 검색 결과가 있으면 검색 결과를, 없으면 전체 전시 목록을 표시
+          final displayList = provider.searchResults.isNotEmpty
+              ? provider.searchResults
+              : provider.exhibitions;
+
+          if (provider.isLoading && displayList.isEmpty) {
             return Center(child: CupertinoActivityIndicator());
           } else if (provider.errorMessage != null) {
             return Center(child: Text('${provider.errorMessage}'));
-          } else if (provider.exhibitions.isEmpty) {
+          } else if (displayList.isEmpty) {
             return Center(child: Text('데이터가 없습니다.'));
           }
 
-          final ongoingExhibitions = provider.exhibitions
+          final ongoingExhibitions = displayList
               .where((exhibition) => exhibition.status != 'COMPLETED')
               .toList();
 
@@ -61,8 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ? ListView.builder(
             controller: _scrollController,
             padding: EdgeInsets.all(8),
-            itemCount:
-            ongoingExhibitions.length + (provider.isLoading ? 1 : 0),
+            itemCount: ongoingExhibitions.length + (provider.isLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == ongoingExhibitions.length) {
                 return Center(
@@ -85,8 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisSpacing: 16,
               childAspectRatio: 0.67,
             ),
-            itemCount:
-            ongoingExhibitions.length + (provider.isLoading ? 1 : 0),
+            itemCount: ongoingExhibitions.length + (provider.isLoading ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == ongoingExhibitions.length) {
                 return Center(child: CupertinoActivityIndicator());
@@ -97,10 +117,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
 
           return LoadingOverlay(
-            isLoading: provider.isLoading && provider.exhibitions.isEmpty,
+            isLoading: provider.isLoading && displayList.isEmpty,
             child: mainContent,
           );
-
         },
       ),
     );

@@ -6,6 +6,7 @@ import '../screens/help_screen.dart';
 import '../screens/area_screen.dart';
 import '../providers/modal_state_provider.dart';
 import 'package:provider/provider.dart';
+import '../widgets/exhibition_search_bar.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   @override
@@ -17,11 +18,29 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   final List<String> areas = ['서울', '경기', '인천', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주'];
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    HomeScreen(),
-    MajorExhibitionsScreen(),
-    HelpScreen(),
-  ];
+  // 화면 너비에 따라 다른 위젯 옵션을 반환하는 메서드
+  List<Widget> _getWidgetOptions(bool isDesktop) {
+    if (isDesktop) {
+      // 데스크톱 버전 - 검색창이 네비게이션 바에 있으므로 컨텐츠만 반환
+      return <Widget>[
+        HomeScreen(),
+        MajorExhibitionsScreen(),
+        HelpScreen(),
+      ];
+    } else {
+      // 모바일 버전 - HomeScreen에만 검색창 포함
+      return <Widget>[
+        Column(
+          children: [
+            ExhibitionSearchBar(),
+            Expanded(child: HomeScreen()),
+          ],
+        ),
+        MajorExhibitionsScreen(),
+        HelpScreen(),
+      ];
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -31,7 +50,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   void _showAreaMenu(BuildContext context) {
     final modalProvider = Provider.of<ModalStateProvider>(context, listen: false);
-    modalProvider.setModalVisible(true);  // 모달 열기 전에 상태 설정
+    modalProvider.setModalVisible(true);
 
     showCupertinoModalPopup(
       context: context,
@@ -50,7 +69,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               child: CupertinoActionSheetAction(
                 onPressed: () {
                   Navigator.pop(context);
-                  modalProvider.setModalVisible(false);  // 상태 업데이트
+                  modalProvider.setModalVisible(false);
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -70,7 +89,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             child: CupertinoActionSheetAction(
               onPressed: () {
                 Navigator.pop(context);
-                modalProvider.setModalVisible(false);  // 상태 업데이트
+                modalProvider.setModalVisible(false);
               },
               child: Text('취소'),
             ),
@@ -78,13 +97,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         );
       },
     ).whenComplete(() {
-      modalProvider.setModalVisible(false);  // 모달이 어떤 방식으로든 닫힐 때
+      modalProvider.setModalVisible(false);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final isDesktop = screenWidth > 600;
+    final widgets = _getWidgetOptions(isDesktop);
 
     return screenWidth > 600
         ? CupertinoPageScaffold(
@@ -188,13 +209,15 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                   ],
                 ),
               ),
+              SizedBox(width: 16),
+              ExhibitionSearchBar(),
             ],
           ),
         ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: widgets.elementAt(_selectedIndex),
       ),
     )
         : Scaffold(
@@ -202,7 +225,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
-            child: _widgetOptions.elementAt(_selectedIndex),
+            child: widgets.elementAt(_selectedIndex),
           ),
           Align(
             alignment: Alignment.bottomCenter,

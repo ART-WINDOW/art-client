@@ -4,48 +4,104 @@ import '../services/api_service.dart'; // API 서비스를 가져옴
 
 // 전시회 데이터를 관리하는 Provider 클래스
 class ExhibitionProvider with ChangeNotifier {
-  final ApiService _apiService = ApiService(); // ApiService 인스턴스
+  final ApiService _apiService = ApiService();
 
-  List<Exhibition> _exhibitions = []; // 전시회 리스트를 저장하는 변수
-  bool _isLoading = false; // 데이터를 로드 중인지 여부를 나타냄
-  String? _errorMessage; // 오류 메시지
-  int _currentPage = 0; // 현재 페이지 번호
+  List<Exhibition> _exhibitions = [];
+  List<Exhibition> _searchResults = []; // 검색 결과를 별도로 관리
+  bool _isLoading = false;
+  String? _errorMessage;
+  int _currentPage = 0;
+  int _searchPage = 0;
+  String _lastSearchKeyword = '';
+  bool _hasMoreSearchResults = true;
 
-  List<Exhibition> get exhibitions => _exhibitions; // 전시회 데이터를 반환
-  bool get isLoading => _isLoading; // 로딩 상태를 반환
-  String? get errorMessage => _errorMessage; // 오류 메시지를 반환
+  String get lastSearchKeyword => _lastSearchKeyword;
 
-  // 전시회 데이터를 로드하는 메서드
-  Future<void> loadExhibitions({int pageSize = 12}) async {
-    if (_isLoading) return; // 이미 로딩 중이면 중복 호출 방지
+  List<Exhibition> get exhibitions => _exhibitions;
 
-    _isLoading = true; // 로딩 시작
-    _errorMessage = null; // 오류 메시지 초기화
-    notifyListeners(); // 상태 변경 알림
+  List<Exhibition> get searchResults => _searchResults;
+
+  bool get isLoading => _isLoading;
+
+  String? get errorMessage => _errorMessage;
+
+  Future<void> searchExhibitions(
+      {required String keyword, String? area}) async {
+    if (_isLoading || !_hasMoreSearchResults) return;
+
+    // 검색어가 비었을 때는 검색 결과를 초기화하고 전체 전시가 보이도록
+    if (keyword.trim().isEmpty) {
+      clearSearch();
+      return;
+    }
+
+    // 새로운 검색어인 경우 초기화
+    if (keyword != _lastSearchKeyword) {
+      _searchResults = [];
+      _searchPage = 0;
+      _lastSearchKeyword = keyword;
+    }
+
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
 
     try {
-      // API에서 데이터를 불러와서 exhibitions 리스트에 추가
-      final newExhibitions = await _apiService.fetchExhibitions(page: _currentPage, pageSize: pageSize);
+      final newExhibitions = await _apiService.searchExhibitions(
+        keyword: keyword,
+        area: area,
+        page: _searchPage,
+      );
 
-      // 중복 데이터 필터링
-      final uniqueExhibitions = newExhibitions.where((newExhibition) {
-        return !_exhibitions.any((existingExhibition) => existingExhibition.id == newExhibition.id);
-      }).toList();
-
-      _exhibitions.addAll(uniqueExhibitions);
-      _currentPage++; // 페이지 번호 증가
+      if (newExhibitions.isEmpty) {
+        _hasMoreSearchResults = false;
+      } else {
+        // 중복 제거하면서 결과 추가
+        final uniqueExhibitions = newExhibitions.where((newExhibition) {
+          return !_searchResults.any((existing) => existing.id == newExhibition.id);
+        }).toList();
+        _searchResults.addAll(uniqueExhibitions);
+        _searchPage++;
+      }
     } catch (e) {
-      _errorMessage = '데이터를 불러오는 중 오류가 발생했습니다: $e'; // 오류 발생 시 메시지 저장
+      _errorMessage = '검색 중 오류가 발생했습니다: $e';
     } finally {
-      _isLoading = false; // 로딩 종료
-      notifyListeners(); // 상태 변경 알림
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
-  // 전시회 목록을 초기화하는 메서드
-  void resetExhibitions() {
-    _exhibitions = [];
-    _currentPage = 0; // 페이지 번호 초기화
-    notifyListeners(); // 상태 변경 알림
+  void clearSearch() {
+    _searchResults = [];
+    _searchPage = 0;
+    _lastSearchKeyword = '';
+    _hasMoreSearchResults = true;
+    notifyListeners();
+  }
+
+  // 기존 loadExhibitions 메소드는 그대로 유지
+  Future<void> loadExhibitions({int pageSize = 12}) async {
+    if (_isLoading) return;
+
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final newExhibitions = await _apiService.fetchExhibitions(
+          page: _currentPage, pageSize: pageSize);
+
+      final uniqueExhibitions = newExhibitions.where((newExhibition) {
+        return !_exhibitions.any((existing) => existing.id == newExhibition.id);
+      }).toList();
+
+      _exhibitions.addAll(uniqueExhibitions);
+      _currentPage++;
+    } catch (e) {
+      _errorMessage = '데이터를 불러오는 중 오류가 발생했습니다: $e';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

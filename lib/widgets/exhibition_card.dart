@@ -55,6 +55,16 @@ class ExhibitionCard extends StatelessWidget {
                   exhibition.imgUrl,
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CupertinoActivityIndicator(
+                        radius: 10,
+                      ),
+                    );
+                  },
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
                       child: SizedBox(
@@ -86,7 +96,7 @@ class ExhibitionCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  SizedBox(height: 4),
                   Row(
                     children: [
                       Icon(CupertinoIcons.calendar,
@@ -205,6 +215,16 @@ class ExhibitionCard extends StatelessWidget {
                   exhibition.imgUrl,
                   fit: BoxFit.contain,
                   alignment: Alignment.center,
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CupertinoActivityIndicator(
+                        radius: 10,
+                      ),
+                    );
+                  },
                   errorBuilder: (context, error, stackTrace) {
                     return Center(
                       child: SizedBox(
