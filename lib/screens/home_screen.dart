@@ -5,13 +5,6 @@ import '../providers/exhibition_provider.dart';
 import '../widgets/exhibition_card.dart';
 import '../widgets/loading_overlay.dart';
 
-import 'dart:math' show max;
-import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-import '../providers/exhibition_provider.dart';
-import '../widgets/exhibition_card.dart';
-import '../widgets/loading_overlay.dart';
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
