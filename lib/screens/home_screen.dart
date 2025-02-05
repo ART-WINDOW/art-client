@@ -29,20 +29,21 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-// home_screen.dart
   void _onScroll() {
+    // ExhibitionProvider를 가져옵니다.
     final provider = Provider.of<ExhibitionProvider>(context, listen: false);
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent &&
+    // 스크롤 위치가 최대 범위의 절반 이상이고 로딩 중이 아닐 때 추가 데이터를 로드합니다.
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent / 2 &&
         !provider.isLoading) {
+      // 검색 결과가 있는 경우, 검색 페이징 처리
       if (provider.searchResults.isNotEmpty) {
-        // 검색 결과가 있는 경우 검색 페이징
         provider.searchExhibitions(
-          keyword: provider.lastSearchKeyword,  // lastSearchKeyword를 public으로 만들거나 getter 추가 필요
+          keyword: provider.lastSearchKeyword, // lastSearchKeyword를 public 또는 getter로 변경 필요
           area: null,
         );
       } else {
-        // 일반 전시 목록 페이징
+        // 일반 전시 목록 페이징 처리
         provider.loadExhibitions();
       }
     }

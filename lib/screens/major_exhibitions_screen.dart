@@ -32,10 +32,10 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent &&
+    // 스크롤 위치가 최대 스크롤 범위의 절반 이상일 때 데이터를 로드합니다.
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent / 2 &&
         !_isLoading) {
-      _loadExhibitions();
+      _loadExhibitions(); // 추가 데이터 로드 함수 호출
     }
   }
 
