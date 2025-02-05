@@ -35,7 +35,7 @@ class _AreaScreenState extends State<AreaScreen> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent / 2 && !_isLoading) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent / 2 && !_isLoading) {
       _loadExhibitions();
     }
   }

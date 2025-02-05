@@ -80,7 +80,7 @@ class ExhibitionProvider with ChangeNotifier {
   }
 
   // 기존 loadExhibitions 메소드는 그대로 유지
-  Future<void> loadExhibitions({int pageSize = 12}) async {
+  Future<void> loadExhibitions({int pageSize = 20}) async {
     if (_isLoading) return;
 
     _isLoading = true;
