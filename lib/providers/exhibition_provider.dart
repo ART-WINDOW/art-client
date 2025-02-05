@@ -98,7 +98,7 @@ class ExhibitionProvider with ChangeNotifier {
       _exhibitions.addAll(uniqueExhibitions);
       _currentPage++;
     } catch (e) {
-      _errorMessage = '서버가 잠시 점검중이에요.\n다음에 다시 방문해주세요';
+      _errorMessage = '서버가 잠시 점검중이에요.\n다음에 다시 방문해주세요.';
     } finally {
       _isLoading = false;
       notifyListeners();

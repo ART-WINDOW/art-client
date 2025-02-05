@@ -5,8 +5,10 @@ import '../models/museum.dart'; // Museum 모델을 가져옴
 
 // ApiService 클래스는 API 요청을 처리하는 역할을 한다.
 class ApiService {
-  // API의 기본 URL
-  final String baseUrl = 'https://art-window.duckdns.org/api/v1';
+  // API의 기본 URL(azure vm ip)
+  final String baseUrl = 'http://20.41.80.127:8080/api/v1';
+  // API의 기본 URL(duckdns)
+  // final String baseUrl = 'https://art-window.duckdns.org/api/v1';
   // 테스트용 URL
   // final String baseUrl = 'http://localhost:8080/api/v1';
 
