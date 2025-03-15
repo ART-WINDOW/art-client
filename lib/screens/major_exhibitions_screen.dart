@@ -15,6 +15,7 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   final ApiService _apiService = ApiService();
   List<Exhibition> _exhibitions = [];
   bool _isLoading = false;
+  bool _isInitialLoading = true;
   int _currentPage = 0;
   final int _pageSize = 10;
 
@@ -55,6 +56,7 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
               .any((existing) => existing.id == newExhibition.id);
         }).toList());
         _currentPage++;
+        _isInitialLoading = false;
       });
     } catch (error) {
       print('Error loading exhibitions: $error');
@@ -69,13 +71,23 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
+    if (_isInitialLoading) {
+      return CupertinoPageScaffold(
+        child: Center(
+          child: CupertinoActivityIndicator(
+            radius: 13,
+          ),
+        ),
+      );
+    }
+
     Widget mainContent = screenWidth <= 600
         ? ListView.builder(
             controller: _scrollController,
             padding: EdgeInsets.all(8),
             itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
             itemBuilder: (context, index) {
-              if (index == _exhibitions.length) {
+              if (index == _exhibitions.length && _isLoading) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -100,7 +112,7 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
             ),
             itemCount: _exhibitions.length + (_isLoading ? 1 : 0),
             itemBuilder: (context, index) {
-              if (index == _exhibitions.length) {
+              if (index == _exhibitions.length && _isLoading) {
                 return Center(
                     child: CupertinoActivityIndicator(
                   radius: 13,
@@ -112,10 +124,7 @@ class _MajorExhibitionsScreenState extends State<MajorExhibitionsScreen> {
           );
 
     return CupertinoPageScaffold(
-      child: LoadingOverlay(
-        isLoading: _isLoading && _exhibitions.isEmpty,
-        child: mainContent,
-      ),
+      child: mainContent,
     );
   }
 }
